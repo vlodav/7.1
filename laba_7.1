@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string>
+using namespace std;
+struct Employee {
+    string fio;
+    string dol;
+    string data;
+    double zp;
+};
+int main()
+{
+   system("chcp 1251");
+   int NUM_EMPLOYEES;
+   cout << "введите кол-во сотрудников: ";
+   cin >> NUM_EMPLOYEES;
+   cin.ignore();
+   Employee *employees = new Employee[NUM_EMPLOYEES];
+
+   // Ввод данных о сотрудниках
+   for (int i = 0; i < NUM_EMPLOYEES; i++) {
+       cout << "Введите Ф.И.О. сотрудника " << i + 1 << ": ";
+       getline(cin, employees[i].fio);
+
+       cout << "Введите должность сотрудника " << i + 1 << ": ";
+       getline(cin, employees[i].dol);
+
+       cout << "Введите год и дату рождения сотрудника " << i + 1 << ": ";
+       getline(cin, employees[i].data);
+
+       cout << "Введите заработную плату сотрудника " << i + 1 << ": ";
+       cin >> employees[i].zp;
+       cin.ignore(); // игнорируем символ новой строки после ввода числа
+   }
+
+   // Вывод ведомости начисленной заработной платы
+   cout<< "\nВедомость начисленной заработной платы:\n";
+   for (int i = 0; i < NUM_EMPLOYEES; i++) {
+       cout << "Ф.И.О.: " << employees[i].fio << endl;
+       cout << "Должность: " << employees[i].dol << endl;
+       cout << "Дата рождения: " << employees[i].data << endl;
+       cout << "Заработная плата: " << employees[i].zp << endl << endl;
+   }
+
+   // Поиск фамилии сотрудника с самой маленькой зарплатой
+   string minSalaryEmployeeFullName = employees[0].fio;
+   double minSalary = employees[0].zp;
+
+   for (int i = 1; i < NUM_EMPLOYEES; i++) {
+       if (employees[i].zp < minSalary) {
+           minSalaryEmployeeFullName = employees[i].fio;
+           minSalary = employees[i].zp;
+       }
+   }
+
+   cout << "Самая маленькая зарплата у сотрудника: "<< minSalaryEmployeeFullName;
+}
