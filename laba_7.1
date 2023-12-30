@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 using namespace std;
 struct Employee {
@@ -9,48 +10,57 @@ struct Employee {
 };
 int main()
 {
-   system("chcp 1251");
-   int NUM_EMPLOYEES;
-   cout << "введите кол-во сотрудников: ";
-   cin >> NUM_EMPLOYEES;
-   cin.ignore();
-   Employee *employees = new Employee[NUM_EMPLOYEES];
+    setlocale(LC_ALL,"Russian");
+    int NUM_EMPLOYEES;
+    cout << "Введите кол-во сотрудников: ";
+    cin >> NUM_EMPLOYEES;
+    cin.ignore();
+    Employee* employees = new Employee[NUM_EMPLOYEES];
 
-   // Ввод данных о сотрудниках
-   for (int i = 0; i < NUM_EMPLOYEES; i++) {
-       cout << "Введите Ф.И.О. сотрудника " << i + 1 << ": ";
-       getline(cin, employees[i].fio);
+    // Ввод данных о сотрудниках
+    for (int i = 0; i < NUM_EMPLOYEES; i++) {
+        cout << "Введите Ф.И.О. сотрудника " << i + 1 << ": ";
+        getline(cin, employees[i].fio);
 
-       cout << "Введите должность сотрудника " << i + 1 << ": ";
-       getline(cin, employees[i].dol);
+        cout << "Введите должность сотрудника " << i + 1 << ": ";
+        getline(cin, employees[i].dol);
 
-       cout << "Введите год и дату рождения сотрудника " << i + 1 << ": ";
-       getline(cin, employees[i].data);
+        cout << "Введите год и дату рождения сотрудника " << i + 1 << ": ";
+        getline(cin, employees[i].data);
 
-       cout << "Введите заработную плату сотрудника " << i + 1 << ": ";
-       cin >> employees[i].zp;
-       cin.ignore(); // игнорируем символ новой строки после ввода числа
-   }
+        cout << "Введите заработную плату сотрудника " << i + 1 << ": ";
+        cin >> employees[i].zp;
+        cin.ignore(); // игнорируем символ новой строки после ввода числа
+    }
 
-   // Вывод ведомости начисленной заработной платы
-   cout<< "\nВедомость начисленной заработной платы:\n";
-   for (int i = 0; i < NUM_EMPLOYEES; i++) {
-       cout << "Ф.И.О.: " << employees[i].fio << endl;
-       cout << "Должность: " << employees[i].dol << endl;
-       cout << "Дата рождения: " << employees[i].data << endl;
-       cout << "Заработная плата: " << employees[i].zp << endl << endl;
-   }
+    // Вывод ведомости начисленной заработной платы
+    cout << "\nВедомость начисленной заработной платы:\n";
+    cout << "------------------------------------------------------------\n";
+    cout << setw(15) << left << "Ф.И.О.";
+    cout << setw(15) << left << "Должность";
+    cout << setw(20) << left << "Дата рождения";
+    cout << setw(10) << right << "З/П" << endl;
+    cout << "------------------------------------------------------------\n";
+    for (int i = 0; i < NUM_EMPLOYEES; i++) {
+        cout << setw(15) << left << employees[i].fio;
+        cout << setw(15) << left << employees[i].dol;
+        cout << setw(20) << left << employees[i].data;
+        cout << setw(10) << right << employees[i].zp << endl;
+    }
+    cout << "------------------------------------------------------------\n";
 
-   // Поиск фамилии сотрудника с самой маленькой зарплатой
-   string minSalaryEmployeeFullName = employees[0].fio;
-   double minSalary = employees[0].zp;
+    // Поиск фамилии сотрудника с самой маленькой зарплатой
+    string minSalaryEmployeeFullName = employees[0].fio;
+    double minSalary = employees[0].zp;
 
-   for (int i = 1; i < NUM_EMPLOYEES; i++) {
-       if (employees[i].zp < minSalary) {
-           minSalaryEmployeeFullName = employees[i].fio;
-           minSalary = employees[i].zp;
-       }
-   }
+    for (int i = 1; i < NUM_EMPLOYEES; i++) {
+        if (employees[i].zp < minSalary) {
+            minSalaryEmployeeFullName = employees[i].fio;
+            minSalary = employees[i].zp;
+        }
+    }
 
-   cout << "Самая маленькая зарплата у сотрудника: "<< minSalaryEmployeeFullName;
+    cout << "Самая маленькая зарплата у сотрудника: " << minSalaryEmployeeFullName<<" -- ("<<minSalary<<")";
+    delete[] employees;
+    return 0;
 }
